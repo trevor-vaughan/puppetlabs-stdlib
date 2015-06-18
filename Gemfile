@@ -1,10 +1,11 @@
-source ENV['GEM_SOURCE'] || 'https://rubygems.org'
+source "https://rubygems.org"
 
 def location_for(place, fake_version = nil)
-  if place =~ /^(git[:@][^#]*)#(.*)/
-    [fake_version, { :git => $1, :branch => $2, :require => false }].compact
-  elsif place =~ /^file:\/\/(.*)/
-    ['>= 0', { :path => File.expand_path($1), :require => false }]
+  mdata = /^(git:[^#]*)#(.*)/.match(place)
+  if mdata
+    [fake_version, { :git => mdata[1], :branch => mdata[2], :require => false }].compact
+  elsif mdata = /^file:\/\/(.*)/.match(place)
+    ['>= 0', { :path => File.expand_path(mdata[1]), :require => false }]
   else
     [place, { :require => false }]
   end
@@ -21,6 +22,7 @@ group :development, :unit_tests do
   gem 'metadata-json-lint',      :require => false
   gem 'pry',                     :require => false
   gem 'simplecov',               :require => false
+  gem 'simp-rake-helpers',       :require => false
 end
 
 beaker_version = ENV['BEAKER_VERSION']
