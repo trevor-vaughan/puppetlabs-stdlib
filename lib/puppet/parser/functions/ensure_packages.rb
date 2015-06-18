@@ -13,7 +13,7 @@ third argument to the ensure_resource() function.
     if arguments.size > 2 or arguments.size == 0
       raise(Puppet::ParseError, "ensure_packages(): Wrong number of arguments " +
         "given (#{arguments.size} for 1 or 2)")
-    elsif arguments.size == 2 and !arguments[1].is_a?(Hash) 
+    elsif arguments.size == 2 and !arguments[1].is_a?(Hash)
       raise(Puppet::ParseError, 'ensure_packages(): Requires second argument to be a Hash')
     end
 

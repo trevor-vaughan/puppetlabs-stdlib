@@ -1,10 +1,11 @@
-source ENV['GEM_SOURCE'] || 'https://rubygems.org'
+source "https://rubygems.org"
 
 def location_for(place, fake_version = nil)
-  if place =~ /^(git[:@][^#]*)#(.*)/
-    [fake_version, { :git => $1, :branch => $2, :require => false }].compact
-  elsif place =~ /^file:\/\/(.*)/
-    ['>= 0', { :path => File.expand_path($1), :require => false }]
+  mdata = /^(git:[^#]*)#(.*)/.match(place)
+  if mdata
+    [fake_version, { :git => mdata[1], :branch => mdata[2], :require => false }].compact
+  elsif mdata = /^file:\/\/(.*)/.match(place)
+    ['>= 0', { :path => File.expand_path(mdata[1]), :require => false }]
   else
     [place, { :require => false }]
   end
@@ -17,11 +18,14 @@ group :development, :unit_tests do
   gem 'puppet-lint',             :require => false
   gem 'pry',                     :require => false
   gem 'simplecov',               :require => false
+  gem 'simp-rake-helpers',       :require => false
 end
 
-group :system_tests do
-  gem 'beaker-rspec',            :require => false
-  gem 'serverspec',              :require => false
+facterversion = ENV['GEM_FACTER_VERSION']
+if facterversion
+  gem 'facter', *location_for(facterversion)
+else
+  gem 'facter', :require => false
 end
 
 ENV['GEM_PUPPET_VERSION'] ||= ENV['PUPPET_GEM_VERSION']
