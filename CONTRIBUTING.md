@@ -215,6 +215,5 @@ Additional Resources
 * [Patchwork](https://patchwork.puppetlabs.com)
 
 * [General GitHub documentation](http://help.github.com/)
-
 * [GitHub pull request documentation](http://help.github.com/send-pull-requests/)
-
+* #puppet-dev IRC channel on freenode.org
