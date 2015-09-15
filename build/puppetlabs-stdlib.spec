@@ -1,6 +1,6 @@
 Summary: PuppetLabs Stdlib Module
 Name: puppetlabs-stdlib
-Version: 4.5.1
+Version: 4.9.0
 Release: 0.SIMP
 License: Apache License, 2.0
 Group: Applications/System
@@ -11,7 +11,7 @@ Buildarch: noarch
 Requires: simp-bootstrap >= 4.2.0
 Obsoletes: puppetlabs-stdlib-test
 
-Prefix:"/etc/puppet/environments/simp/modules"
+Prefix: /etc/puppet/environments/simp/modules
 
 %description
 This is the puppetlabs stdlib module as hosted at
@@ -39,19 +39,22 @@ mkdir -p %{buildroot}/%{prefix}/stdlib
 
 %files
 %defattr(0640,root,puppet,0750)
-/etc/puppet/environments/simp/modules/stdlib
+%{prefix}/stdlib
 
 %post
 #!/bin/sh
 
-if [ -d /etc/puppet/environments/simp/modules/stdlib/plugins ]; then
-  /bin/mv /etc/puppet/environments/simp/modules/stdlib/plugins /etc/puppet/environments/simp/modules/stdlib/plugins.bak
+if [ -d %{prefix}/stdlib/plugins ]; then
+  /bin/mv %{prefix}/stdlib/plugins %{prefix}/stdlib/plugins.bak
 fi
 
 %postun
 # Post uninstall stuff
 
 %changelog
+* Tue Sep 15 2015 Trevor Vaughan <tvaughan@onyxpoint.com> - 4.9.0-0.SIMP
+- Patching in the latest official 4.9.0
+
 * Mon Feb 02 2015 Trevor Vaughan <tvaughan@onyxpoint.com> - 4.5.1-0.SIMP
 - Patching in the latest official 4.5.1
 
